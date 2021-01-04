@@ -16,7 +16,7 @@ figure;
 plot(x1, y, 'bx');
 title('Precio de los Pisos')
 ylabel('Euros'); xlabel('Superficie (m^2)');
-grid on; hold on; 
+grid on; hold on;
 
 X_mono = [ones(N,1) x1];
 th_mono = X_mono\y
@@ -44,8 +44,8 @@ X_multi = [ones(N,1) x1 x2];
 th_multi = X_multi\y;  % Se resuelve la ecuación
 yest = X_multi * th_multi;
 
-% Dibujar los puntos de entrenamiento y su valor estimado 
-figure;  
+% Dibujar los puntos de entrenamiento y su valor estimado
+figure;
 plot3(x1, x2, y, '.r', 'markersize', 20);
 axis vis3d; hold on;
 plot3([x1 x1]' , [x2 x2]' , [y yest]', '-b');
@@ -63,7 +63,7 @@ Xg = [ones(size(x1g)), x1g, x2g];
 yg = Xg * th_multi;
 
 % Dibujar la superficie estimada
-surf(ejex1, ejex2, reshape(yg,np,np)); grid on; 
+surf(ejex1, ejex2, reshape(yg,np,np)); grid on;
 title('Precio de los Pisos');
 zlabel('Euros'); xlabel('Superficie (m^2)'); ylabel('Habitaciones');
 %str_ecuacion = strcat('h(x) = ', mat2str(th), '*x (€)');
@@ -82,8 +82,8 @@ mu_res_abs_test = mean(abs(residuos_test))
 rmse_train_multi = RMSE(th_multi, X_multi, y);
 rmse_test_multi = RMSE(th_multi, X_multi_test, y_test);
 rmse_multi = [rmse_train_multi rmse_test_multi]
-% Dibujar los puntos de entrenamiento y su valor estimado 
-%figure;  
+% Dibujar los puntos de entrenamiento y su valor estimado
+%figure;
 %plot3(x1, x2, residuos, '.r', 'markersize', 20);
 %axis vis3d; hold on;
 %plot3([x1 x1]' , [x2 x2]' , [y yest]', '-b');
@@ -108,7 +108,7 @@ ysup_multi = Xsup * th_multi
 
 prom_real_100_hab = mean(y_test(x1_test==100 & x2_test==5)) %& x2_test==habs))
 
-%rmse de los ajustes multi con 100 metros 
+%rmse de los ajustes multi con 100 metros
 % rmse_multi_100 = RMSE(th_multi, Xsup, y(x1==Xsup(2) && x2==Xsup(3)))
 % rmse_multi_test_100 = RMSE(th_multi, Xsup, y_test(x1_test==100))
 
@@ -124,7 +124,7 @@ figure;
 plot(x1, y, 'bx');
 title('Precio de los Pisos')
 ylabel('Euros'); xlabel('Superficie (m^2)');
-grid on; hold on; 
+grid on; hold on;
 
 % Normalizacion:
 % N = size(X,1);
@@ -134,15 +134,15 @@ grid on; hold on;
 % tb podria haber llamado a la funcion normalizar...
 
 
-X_mono = [ones(N,1) x1]; 
+X_mono = [ones(N,1) x1];
 M = 200000; % numero de iteraciones máximas
-alfa = [0.000000001; 0.000000005; 0.00000001; 0.00000005; 0.0000001; 
+alfa = [0.000000001; 0.000000005; 0.00000001; 0.00000005; 0.0000001;
     0.000000482; 0.00000048535; 0.000000485;  0.000001; 0.001; 0.01; 0.1]; % distintos valores de alfa a probar
 th_g_mono = randn(2, 1); % N numeros aleatorios con distrib normal
 J_iter = [];
 for k = 1:M
     [J,g] = costeL2(th_g_mono, X_mono, y);
-    if k>2 && J > J_iter(length(J_iter)) % si ha aumentado el error, terminamos 
+    if k>2 && J > J_iter(length(J_iter)) % si ha aumentado el error, terminamos
         break
     end
     J_iter = [ J_iter; J ];
@@ -152,7 +152,7 @@ end
 
 Xextr = [1 min(x1)  % Predicción para los valores extremos
          1 max(x1)];
-yextr = Xextr * th_g_mono;  
+yextr = Xextr * th_g_mono;
 plot(Xextr(:,2), yextr, 'r-'); % Dibujo la recta de predicción
 legend('Datos Entrenamiento', 'Prediccion');
 
@@ -165,7 +165,7 @@ strcat('con ecuacion normal: ', str_prediccion_ec_mono)
 
 [th_mono, th_g_mono]
 
-% Grafica completa del coste: 
+% Grafica completa del coste:
 figure;
 plot(1:M, log(J_iter), 'bx');
 title('Coste por iteracion');
@@ -188,12 +188,12 @@ grid on; hold on;
 % Xextr = [1 min(x1)  % Predicción para los valores extremos
 %          1 max(x1)];
 % yextr = Xextr * th_mono
-% 
+%
 % plot(Xextr(:,2), yextr, 'r-'); % Dibujo la recta de predicción
-% 
-% 
+%
+%
 % str_prediccion = strcat('Prediccion: precio = ', mat2str(th_mono(2)), '*S(m^2) + ', mat2str(th_mono(1)))
-% 
+%
 % legend('Datos Entrenamiento', str_prediccion);
 
 
@@ -210,7 +210,7 @@ X = [ones(N,1) x1 x2];
 
 
 M = 1000; % numero de iteraciones
-alfa = [0.000000001; 0.000000005; 0.00000001; 0.00000005; 0.0000001; 
+alfa = [0.000000001; 0.000000005; 0.00000001; 0.00000005; 0.0000001;
     0.000000482; 0.0000004853; 0.000000485;  0.000001; 0.001; 0.01; 0.1]; % distintos valores de alfa a probar
 th_g_multi = randn(3, 1); % N numeros aleatorios con distrib normal
 J_iter = [];
@@ -229,7 +229,7 @@ end
 % directamente, mientras que el gradiente se aproxima iterativamente
 
 
-% Grafica completa del coste: 
+% Grafica completa del coste:
 figure;
 plot(1:M, log(J_iter), 'bx');
 title('Coste por iteracion');
@@ -245,8 +245,8 @@ th_g_multi = desnormalizar(th_g_multi, mu, sd);
 
 ths = [th_g_multi th_multi]
 
-% Dibujar los puntos de entrenamiento y su valor estimado 
-figure;  
+% Dibujar los puntos de entrenamiento y su valor estimado
+figure;
 plot3(x1, x2, y, '.r', 'markersize', 20);
 axis vis3d; hold on;
 plot3([x1 x1]' , [x2 x2]' , [y yest]', '-b');
@@ -264,7 +264,7 @@ Xg = [ones(size(x1g)), x1g, x2g];
 yg = Xg * th_g_multi;
 
 % Dibujar la superficie estimada
-surf(ejex1, ejex2, reshape(yg,np,np)); grid on; 
+surf(ejex1, ejex2, reshape(yg,np,np)); grid on;
 title('Precio de los Pisos');
 zlabel('Euros'); xlabel('Superficie (m^2)'); ylabel('Habitaciones');
 
@@ -320,10 +320,10 @@ mean(res(2:4))
 
 rmse = [ RMSE(th_mono, X_mono, y) RMSE(th_multi, X_multi, y);
          RMSE(th_g_mono, X_mono, y) RMSE(th_g_multi, X_multi, y)]
-     
-     
-     
-     
+
+
+
+
 %% 6. Descenso de gradiente, coste de Huber
 
 % Normalizacion:
@@ -337,7 +337,7 @@ X = [ones(N,1) x1 x2];
 
 
 M = 100000; % numero de iteraciones
-alfa = [0.000000001; 0.000000005; 0.00000001; 0.00000005; 0.0000001; 
+alfa = [0.000000001; 0.000000005; 0.00000001; 0.00000005; 0.0000001;
     0.000000482; 0.0000004853; 0.000000485;  0.000001; 0.001; 0.01; 0.1; 1; 10; 300; 4]; % distintos valores de alfa a probar
 th_g_multi_h = randn(3, 1); % N numeros aleatorios con distrib normal
 J_iter = [];
@@ -357,7 +357,7 @@ end
 % directamente, mientras que el gradiente se aproxima iterativamente
 
 
-% Grafica completa del coste: 
+% Grafica completa del coste:
 figure;
 plot(1:M, log(J_iter), 'bx');
 title('Coste por iteracion');
@@ -373,8 +373,8 @@ th_g_multi_h = desnormalizar(th_g_multi_h, mu, sd);
 
 
 
-% Dibujar los puntos de entrenamiento y su valor estimado 
-figure;  
+% Dibujar los puntos de entrenamiento y su valor estimado
+figure;
 plot3(x1, x2, y, '.r', 'markersize', 20);
 axis vis3d; hold on;
 plot3([x1 x1]' , [x2 x2]' , [y yest]', '-b');
@@ -392,7 +392,7 @@ Xg = [ones(size(x1g)), x1g, x2g];
 yg = Xg * th_g_multi_h;
 
 % Dibujar la superficie estimada
-surf(ejex1, ejex2, reshape(yg,np,np)); grid on; 
+surf(ejex1, ejex2, reshape(yg,np,np)); grid on;
 title('Precio de los Pisos');
 zlabel('Euros'); xlabel('Superficie (m^2)'); ylabel('Habitaciones');
 
@@ -403,7 +403,3 @@ rmse = [ RMSE(th_mono, X_mono, y) RMSE(th_multi, X_multi, y);
          RMSE(th_g_mono, X_mono, y) RMSE(th_g_multi, X_multi, y);
          RMSE(th_g_mono, X_mono, y) RMSE(th_g_multi_h, X_test, y);
          ]
-     
-     
-
-
